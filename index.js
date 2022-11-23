@@ -61,6 +61,16 @@ app.get("/dashboard", verifyToken, (req, res) => {
   });
 });
 
+app.get("/logout", verifyToken, (req, res) => {
+  const username = req.userData.sub;
+  // Remove refreshToken
+  refreshTokens = refreshTokens.filter((x) => x.username !== username);
+  res.json({
+    status: true,
+    message: "logout successfuly done",
+  });
+});
+
 // Custom middleware
 function verifyToken(req, res, next) {
   try {
