@@ -24,17 +24,42 @@ app.post("/login", (req, res) => {
       process.env.JWT_ACCESS_SECRET,
       { expiresIn: process.env.JWT_ACCESS_TIME }
     );
-    res
-      .status(200)
-      .json({
-        status: true,
-        message: "login successfully done",
-        data: { access_token: access_token },
-      });
+    res.status(200).json({
+      status: true,
+      message: "login successfully done",
+      data: { access_token: access_token },
+    });
   }
 
   res.status(401).json({ status: true, message: "login failed" });
 });
+
+app.get("/dashboard", verifyToken, (req, res) => {
+  res.json({
+    status: true,
+    message: "Welcome to Dashboard",
+  });
+});
+
+// Custom middleware
+function verifyToken(req, res, next) {
+  try {
+    // Bearer tokenString
+    const access_token = req.headers.authorization.split(" ")[1];
+
+    const decode = jwt.verify(access_token, process.env.JWT_ACCESS_SECRET);
+
+    req.userData = decode;
+    next();
+  } catch (error) {
+    res.status(401).json({
+      status: true,
+      message: "Your session expired",
+      data: { error: error },
+    });
+  }
+}
+
 app.listen(PORT, () => {
   console.log(`app running on port ${PORT}`);
 });
