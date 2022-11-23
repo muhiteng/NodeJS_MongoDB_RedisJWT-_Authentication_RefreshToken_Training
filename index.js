@@ -1,5 +1,9 @@
+require("dotenv").config();
 const express = require("express");
+const jwt = require("jsonwebtoken");
+
 const PORT = process.env.PORT || 3000;
+
 const app = express();
 
 // middleware to parse request
@@ -15,7 +19,18 @@ app.post("/login", (req, res) => {
   const password = req.body.password;
 
   if (userName === "Moh" && password === "123") {
-    res.status(200).json({ status: true, message: "login successfully done" });
+    const access_token = jwt.sign(
+      { sub: userName },
+      process.env.JWT_ACCESS_SECRET,
+      { expiresIn: process.env.JWT_ACCESS_TIME }
+    );
+    res
+      .status(200)
+      .json({
+        status: true,
+        message: "login successfully done",
+        data: { access_token: access_token },
+      });
   }
 
   res.status(401).json({ status: true, message: "login failed" });
