@@ -1,0 +1,12 @@
+version: "3"
+services:
+  node-app:
+    build:
+      context: . # from any location to Dockerfile
+      target: development # to determine stage in Dockerfile
+    volumes:
+      - ./src:/app/src:ro # here we use relative path not absolute path  # with mode read only
+
+    environment:
+      - NODE_ENV=development
+    command: npm run start-dev # override CMD [ "npm","run","start-dev" ]  in Dockerfile

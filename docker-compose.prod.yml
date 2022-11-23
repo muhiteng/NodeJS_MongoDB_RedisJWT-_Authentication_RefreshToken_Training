@@ -1,0 +1,9 @@
+version: "3"
+services:
+  node-app:
+    build:
+      context: . # from any location to Dockerfile
+      target: production # to determine stage in Dockerfile
+    environment:
+      - NODE_ENV=production
+    command: npm start # override CMD [ "npm","run","start-dev" ]  in Dockerfile

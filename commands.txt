@@ -3,3 +3,13 @@ npm i express
 npm i json webtoken
 npm i dotenv
  npm i --save-dev nodemon 
+ npm i mongoose
+
+// run 2 doker-compose files, here docker-compose.yml  has a common settings
+docker-compose -f docker-compose.yml  -f docker-compose.dev.yml up -d
+//if want to rebuild docker file important for dev
+docker-compose -f docker-compose.yml  -f docker-compose.dev.yml up -d --build
+// scale app
+docker-compose -f docker-compose.yml  -f docker-compose.dev.yml up -d --build --scale node-app=3
+// stop services
+docker-compose -f docker-compose.yml  -f docker-compose.dev.yml down
