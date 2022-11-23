@@ -2,4 +2,4 @@ npm init -y
 npm i express
 npm i json webtoken
 npm i dotenv
-npm i nodemon
+ npm i --save-dev nodemon 
